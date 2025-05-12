@@ -152,10 +152,9 @@ def generate_invoice(request, reservation_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=invoice_{reservation_id}.pdf'
 
-    with tempfile.NamedTemporaryFile(delete=True) as tmp_file:
-        HTML(string=html_string).write_pdf(target=tmp_file.name)
-        tmp_file.seek(0)
-        response.write(tmp_file.read())
+    pdf = HTML(string=html_string).write_pdf()
+
+    response.write(pdf)
 
     return response
 

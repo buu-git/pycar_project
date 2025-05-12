@@ -6,11 +6,11 @@ from datetime import timedelta
 
 class Car(models.Model):
 
-    TYPE_CHOICES = {
-        "S": "SUV",
-        "SP": "SPORT",
-        "H": "HATCHBACK",
-    }
+    TYPE_CHOICES = [
+        ("S", "SUV"),
+        ("SP", "SPORT"),
+        ("H", "HATCHBACK"),
+    ]
 
     image = models.ImageField(upload_to='cars_images/', null=True, blank=True)
     name = models.CharField(max_length=32)
