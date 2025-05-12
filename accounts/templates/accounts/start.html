@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-content text-center" id="mainContent">
+    <h1 class="main-title">Welcome to PyCAR</h1>
+    <p class="sub-title">Find your dream car</p>
+    <a href="{% url 'accounts:car_list' %}" class="btn btn-light btn-custom mt-3">Explore Cars</a>
+</div>
+
+<!-- Sekcja informacyjna, ciemne tło, rozciągnięta na całą szerokość strony -->
+<div class="info-section text-left mt-5 px-4 py-5">
+    <div class="container text-light">
+        <h4 class="font-weight-bold mb-3 text-center">Luxury and Sports Car Rentals</h4>
+        <p class="text-justify">
+            Renting luxury and sports cars doesn’t have to be a daunting task. We are a company that takes a flexible
+            approach to the needs of our clients and business partners. By minimizing the formalities involved in car rental,
+            our customers avoid being bogged down in unclear terms and conditions. When you rent from us, you can be sure you're
+            choosing a top-class vehicle in excellent technical condition.
+        </p>
+        <p class="text-justify">
+            Whether for business or personal use, or if you're simply not ready to purchase a high-end vehicle but want
+            to enjoy driving one for an extended period — we will meet your needs and tailor our offer to your expectations.
+            Contact us today, and we’ll do our best to make sure every customer leaves with a wide smile!
+        </p>
+    </div>
+</div>
+
+<style>
+    .main-content {
+        min-height: calc(100vh - 56px);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .main-content.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .main-title {
+        font-size: 4rem;
+        font-weight: 800;
+    }
+
+    .sub-title {
+        font-size: 2rem;
+        margin-top: 15px;
+        margin-bottom: 35px;
+        font-weight: 400;
+    }
+
+    .btn-custom {
+        font-size: 1.4rem;
+        padding: 14px 40px;
+        border-radius: 50px;
+        font-weight: 600;
+    }
+
+    /* Sekcja informacyjna */
+    .info-section {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        width: 100%;
+        text-align: justify;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById('mainContent');
+        setTimeout(() => {
+            mainContent.classList.add('show');
+        }, 300);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Available Cars - PyCAR{% endblock %}
+
+{% block head %}
+<style>
+    .card {
+        background-color: #222;
+        color: white;
+        border: 1px solid #444;
+    }
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    a.btn {
+        margin-top: 10px;
+    }
+
+    /* Styl formularza filtra */
+    .filter-form {
+        background-color: #111;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        color: white;
+    }
+
+    .filter-form select {
+        background-color: #222;
+        color: white;
+        border: 1px solid #555;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+
+    .filter-form button {
+        background-color: white;
+        color: black;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    .filter-form button:hover {
+        background-color: #ddd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Available Cars</h2>
+
+<!-- Filter form -->
+<form method="get" class="form-inline filter-form">
+    {{ filter.form.car_type.label_tag }}
+    {{ filter.form.car_type }}
+    <button type="submit" class="ml-2">Filter</button>
+</form>
+
+<div class="row">
+    {% for car in object_list %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                {% if car.image %}
+                    <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.name }}">
+                {% else %}
+                    <img src="{% static 'images/default-car-image.jpg' %}" class="card-img-top" alt="Default Car">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.name }}</h5>
+                    <p class="card-text">{{ car.specification|truncatewords:20 }}</p>
+                    <a href="{% url 'car_detail' car.pk %}" class="btn btn-warning btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="ml-3">No cars available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

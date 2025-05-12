@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+
+    .invoice-container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d7d7d7;
+      border-radius: 10px;
+      padding: 20px 25px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .date {
+      font-size: 12px;
+      color: #333;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin-top: 10px;
+      color: #000;
+    }
+
+    h4 {
+      font-size: 16px;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      color: #000;
+    }
+
+    p {
+      margin: 2px 0;
+      font-size: 13px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    table th, table td {
+      padding: 8px;
+      text-align: right;
+    }
+
+    table th {
+      background-color: #ebebeb;
+      font-weight: bold;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 14px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    .left {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="invoice-container">
+    <div class="header">
+      <div class="logo">PyCAR</div>
+      <div class="date">Ordered on {{ date }}</div>
+    </div>
+
+    <h3>Invoice</h3>
+
+    <h4>Client details:</h4>
+    <p>
+      {{ reservation.user.first_name }} {{ reservation.user.last_name }}<br>
+      Email: {{ reservation.user.email }}
+    </p>
+
+    <h4>Reservation details:</h4>
+    <p>
+      <strong>Car:</strong> {{ reservation.car.name }}<br>
+      <strong>Period:</strong> {{ reservation.date_start }} – {{ reservation.date_end }}<br>
+      <strong>Number of days:</strong> {{ total_days }}<br>
+      <strong>Price per day:</strong> ${{ price_per_day|floatformat:2 }}
+    </p>
+
+    <h4>Summary:</h4>
+    <table>
+      <tr>
+        <th class="left">Item</th>
+        <th>Price</th>
+      </tr>
+      <tr>
+        <td class="left">{{ reservation.car.name }}</td>
+        <td>${{ total_price|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td class="left">Net amount</td>
+        <td>${{ net_price|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td class="left">VAT (23%)</td>
+        <td>${{ vat_amount|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td class="left total">Gross amount</td>
+        <td class="total">${{ total_price|floatformat:2 }}</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Reservations - PyCAR{% endblock %}
+
+{% block head %}
+<style>
+    .reservation-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        color: white;
+    }
+
+    .reservation-card img {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+    .reservation-details {
+        flex-grow: 1;
+    }
+
+    .reservation-details strong {
+        display: inline-block;
+        width: 120px;
+    }
+
+    .btn-cancel {
+        margin-top: 10px;
+    }
+
+    .btn-download {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Reservations list</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% for r in reservations %}
+    <div class="reservation-card">
+        {% if r.car.image %}
+            <img src="{{ r.car.image.url }}" alt="{{ r.cars.name }}">
+        {% else %}
+            <img src="{% static 'images/default-car-image.jpg' %}" alt="Car image">
+        {% endif %}
+
+        <div class="reservation-details">
+            <h5>{{ r.car.name }}</h5>
+            <p><strong>Start:</strong> {{ r.date_start }}</p>
+            <p><strong>End:</strong> {{ r.date_end }}</p>
+            <p><strong>Days:</strong> {{ r.total_days }}</p>
+            <p><strong>Price:</strong> ${{ r.total_price }}</p>
+
+            <a href="{% url 'generate_invoice' r.id %}" class="btn btn-sm btn-outline-light btn-download">Download Invoice (PDF)</a>
+
+            <form action="{% url 'delete_reservation' r.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm btn-cancel">Cancel Reservation</button>
+            </form>
+        </div>
+    </div>
+{% empty %}
+    <p>You have no reservations yet.</p>
+{% endfor %}
+
+<a href="{% url 'car_list' %}" class="btn btn-outline-light mt-3">← Back to Cars</a>
+{% endblock %}
